@@ -7,9 +7,13 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 1883
+      targetPort: 1883
       protocol: TCP
-      name: http
+      name: mqtt
+    - port: 9001
+      targetPort: 9001
+      protocol: TCP
+      name: ws
   selector:
     {{- include "mosquitto.selectorLabels" . | nindent 4 }}
