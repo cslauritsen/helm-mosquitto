@@ -17,3 +17,5 @@
   Subscribe to all topics:
     mosquitto_sub -h {{ .Values.loadBalancer.ip }} -v -t '#'
 {{- end }}
+
+Thanks.
