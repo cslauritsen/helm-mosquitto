@@ -47,6 +47,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       # Do something to modify the repo using `${{ steps.next_version.outputs.version }}`.
       - run: echo "${{ steps.next_version.outputs.version }}"
+      - name: Update chart
+        run: |
+          sed -i 's/version: .*/version: ${{ steps.next_version.outputs.version}}/' Chart.yaml
 #     - run: |
 #         git add .
 #         git commit -m "Bump version"
