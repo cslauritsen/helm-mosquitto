@@ -1,1 +1,19 @@
-1. Get the application URL by running these commands:
+* Access the web server:
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+  curl -L http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host }}/
+{{- end }}
+{{- end }}
+
+{{- if .Values.loadBalancer.enabled }}
+
+* You can connect to the service from outside the cluster using the LoadBalancer service:
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "mosquitto.fullname" . }}'
+
+  Send a test publication:
+    mosquitto_pub -h {{ .Values.loadBalancer.ip }} -t test/topic1 -m 'Hello, world!'
+
+  Subscribe to all topics:
+    mosquitto_sub -h {{ .Values.loadBalancer.ip }} -v -t '#'
+{{- end }}
