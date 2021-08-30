@@ -34,10 +34,11 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-#     - id: bump
-#       uses: zwaldowski/match-label-action@v1
-#       with:
-#         allowed: major,minor,patch
+      - id: bump
+        uses: zwaldowski/match-label-action@v1
+        with:
+          allowed: major,minor,patch
+        run: echo bump output ${{ steps.bump.outputs.match }}
 #     - uses: zwaldowski/semver-release-action@v1
 #       with:
 #         bump: ${{ steps.bump.outputs.match }}
