@@ -34,6 +34,9 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+        
+      - name: Allow envvar stuff
+        run: echo ACTIONS_ALLOW_UNSECURE_COMMANDS=true >> $GITHUB_ENV
 
       - id: next_version
         uses: zwaldowski/semver-release-action@v1
