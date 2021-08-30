@@ -1,13 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "mosquitto.fullname" . -}}
 {{- $svcPortName := .Values.service.portName -}}
-
-#{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-#apiVersion: networking.k8s.io/v1beta1
-#{{- else -}}
-#apiVersion: extensions/v1beta1
-#{{- end }}
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -21,14 +14,12 @@ metadata:
 spec:
   {{- if .Values.ingress.tls.enabled }}
   tls:
-    {{- range .Values.ingress.hosts }}
     - hosts:
-        {{- range .hosts }}
+    {{- range .Values.ingress.hosts }}
         - {{ . | quote }}
-        {{- end }}
-      secretName: {{ include "mosquitto.fullname" . }}-tls-secret
     {{- end }}
   {{- end }}
+      secretName: {{ include "mosquitto.fullname" . }}-{{ .Values.certManager.issuerName }}-tls
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ . | quote }}

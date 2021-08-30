@@ -1,0 +1,19 @@
+
+#no-connection {
+    visibility: visible;
+    font-size: 24px;
+    position: absolute;
+    top: 45%;
+    left: 22%;
+    width: 500px;
+    height: 500px;
+    background-color: #b00;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 100;
+}
+
+#tinter-template {
+    visibility: hidden;
+    display:none;
+}
