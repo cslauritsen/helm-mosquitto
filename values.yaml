@@ -14,6 +14,8 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+storageClass: "longhorn"
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -38,7 +40,7 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 80
+  portName: ws
 
 ingress:
   enabled: true
@@ -46,15 +48,8 @@ ingress:
     kubernetes.io/ingress.class: traefik
   hosts:
     - host: mqtt.ingress.site.local
-      paths:
-      - path: /
-        backend:
-          serviceName: ws
-          servicePort: 9001
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls:
+    enabled: false
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious

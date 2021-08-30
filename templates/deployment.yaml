@@ -27,6 +27,16 @@ spec:
       serviceAccountName: {{ include "mosquitto.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+      - name: {{ include "mosquitto.fullname" . }}-persist-vol
+        persistentVolumeClaim:
+          claimName: {{ include "mosquitto.fullname" . }}-persist
+      - name: {{ include "mosquitto.fullname" . }}-config-vol
+        configMap:
+          name: {{ include "mosquitto.fullname" . }}-conf
+      - name: {{ include "mosquitto.fullname" . }}-html-vol
+        configMap:
+          name: {{ include "mosquitto.fullname" . }}-html
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -34,17 +44,25 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: ws
+              containerPort: 9001
+              protocol: TCP
+            - name: mqtt
+              containerPort: 1883
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: mqtt
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: mqtt
+          volumeMounts:
+            - name: {{ include "mosquitto.fullname" . }}-persist-vol
+              mountPath: /mosquitto/persist
+            - name: {{ include "mosquitto.fullname" . }}-config-vol
+              mountPath: /mosquitto/config
+            - name: {{ include "mosquitto.fullname" . }}-html-vol
+              mountPath: /mosquitto/html
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
