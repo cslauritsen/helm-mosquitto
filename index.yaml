@@ -3,6 +3,16 @@ entries:
   mosquitto:
   - apiVersion: v2
     appVersion: 2.0.11
+    created: "2021-08-30T21:12:42.635263035Z"
+    description: Mosquitto MQTT Broker configured for TAG POS
+    digest: 0da5b701b4d91e58aaa1e8598119a209520751a2851b2a95b7a6a62e94fc96ec
+    name: mosquitto
+    type: application
+    urls:
+    - https://github.com/cslauritsen/helm-mosquitto/releases/download/mosquitto-0.1.8/mosquitto-0.1.8.tgz
+    version: 0.1.8
+  - apiVersion: v2
+    appVersion: 2.0.11
     created: "2021-08-30T20:48:57.646054423Z"
     description: Mosquitto MQTT Broker configured for TAG POS
     digest: 5738cca9aaa362b338a68ccb75e75803aefbe2d99a67bd73a3541e32d7083ca6
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/cslauritsen/helm-mosquitto/releases/download/mosquitto-0.1.7/mosquitto-0.1.7.tgz
     version: 0.1.7
-generated: "2021-08-30T20:48:57.646061623Z"
+generated: "2021-08-30T21:12:42.635530937Z"
