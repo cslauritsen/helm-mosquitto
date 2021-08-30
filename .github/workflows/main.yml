@@ -46,26 +46,24 @@ jobs:
           dry_run: true
           bump: patch
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      # Do something to modify the repo using `${{ steps.next_version.outputs.version }}`.
-      - run: echo "${{ steps.next_version.outputs.version }}"
+
       - name: Update chart
         run: |
           sed -i 's/version: .*/version: ${{ steps.next_version.outputs.version}}/' Chart.yaml
           git commit -am "Bump version"
           git push
           echo ::set-output name=sha::$(git rev-parse HEAD)
-#     - run: |
-#         git add .
-#         git commit -m "Bump version"
-#         git push
-#         echo ::set-output name=sha::$(git rev-parse HEAD)
-      - uses: zwaldowski/semver-release-action@v1
+
+      - name: Commit bumped version
+        uses: zwaldowski/semver-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           sha: ${{ steps.git_commit.outputs.sha }}
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.1.0
+        with:
+          charts_dir: .
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         
