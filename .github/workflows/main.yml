@@ -50,12 +50,10 @@ jobs:
       - name: Update chart
         run: |
           sed -i 's/version: .*/version: ${{ steps.next_version.outputs.version}}/' Chart.yaml
-          git commit -a --author="GitHub Action <actor@github.com>" -m "Bump version"
+          cat Chart.yaml
+          git commit --author="GitHub Action <actor@github.com>" --reset-author -am "Bump version"
           git push
           echo ::set-output name=sha::$(git rev-parse HEAD)
-      - name: Cat chart
-        run: |
-          cat Chart.yaml
 #     - run: |
 #         git add .
 #         git commit -m "Bump version"
